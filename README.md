@@ -4,7 +4,11 @@ This Chrome extension will highlight products with ingredients that you do not w
 
 ## Usage
 
-Simply enter products seperated with newlines in the text box that appears when you click the Food Cub extension icon. Once you've done this, Food Lion's products will have a slight red tint if they contain one of the products that you listed. Works with https://shop.foodlion.com. You will have to refresh the Food Lion page after making a change to your list.
+Simply enter products seperated with newlines in the text box that appears when you click the Food Cub extension icon. Once you've done this, Food Lion's products will have a slight red tint if they contain one of the products that you listed. Works with https://shop.foodlion.com. You will have to refresh the Food Lion page after making a change to your list. To allow an ingredient that perhaps contains an ingredient you want, type a `^` character before it. So to allow almond milk but disallow milk, your list would be:
+```
+milk
+^almond milk
+```
 
 ## Setup
 

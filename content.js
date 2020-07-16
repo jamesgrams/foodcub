@@ -9,11 +9,14 @@ let maxTriesScope = 30;
 let maxTriesUser = 10;
 let getUserTries = 0;
 let badIngredients = [];
+let okContainingIngredients = [];
 
 window.addEventListener("load", function() {
     chrome.storage.local.get(["foodCubBadList"], function(result) {
         if( !result || !result.foodCubBadList ) return;
         badIngredients = result.foodCubBadList.split("\n");
+        okContainingIngredients = badIngredients.filter(el => el.match(/^\^/)).map(el => el.substring(1));
+        badIngredients = badIngredients.filter(el => el.match(/^[^\^]/));
 
         // Inject the function on the page for use.
         window.addEventListener('foodCubUpdateItems', updateItems);
@@ -76,7 +79,11 @@ function updateItems(event) {
                             for( let badIngredient of badIngredients ) {
                                 if( ingredient.toLowerCase().indexOf( badIngredient.toLowerCase() ) != -1 ) {
                                     isBad = true;
-                                    break loopOuter;
+                                    for( let okContainingIngredient of okContainingIngredients ) {
+                                        // If there is an OK containing ingredient that contains the bad ingredient and the ingredient contains it (e.g. say we allow almondmilk but not milk), then that is ok
+                                        if( okContainingIngredient.toLowerCase().indexOf(badIngredient.toLowerCase()) != -1 && ingredient.toLowerCase().indexOf( okContainingIngredient.toLowerCase() ) != -1 ) isBad = false;
+                                    }
+                                    if( isBad ) break loopOuter;
                                 }
                             }
                         }
