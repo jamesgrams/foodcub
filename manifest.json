@@ -1,0 +1,30 @@
+{
+    "name": "Food Cub",
+    "version": "0.0.1",
+    "manifest_version": 2,
+    "description": "Filter products by unwanted ingredients on Food Lion's website",
+    "homepage_url": "https://game103.net",
+    "browser_action": {
+        "default_title": "Food Cub",
+        "default_popup": "popup.html"
+    },
+    "permissions": [
+        "https://shop.foodlion.com/*",
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://shop.foodlion.com/*"
+            ],
+            "js": ["content.js"],
+            "run_at": "document_end"
+        }
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon32.png",
+        "138": "icon128.png"
+    }
+}
