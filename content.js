@@ -108,7 +108,8 @@ function updateItems(event) {
                     return; // don't try any longer.
                 }, null, {
                     "authorization": auth,
-                    "x-uanta-mode": "grocery"
+                    "x-uanta-mode": "grocery",
+                    "user-context": event.detail.userContext
                 });
         
                 //return;
@@ -201,7 +202,10 @@ function foodCubGetScopes() {
         return;
     }
 
-    window.dispatchEvent( new CustomEvent('foodCubUpdateItems', { detail: {items: JSON.stringify(items), version: angular.element(document.body).injector().get("$rootScope").config.version} }) );
+    let authScope = scopes.filter( el => el.auth )[0].auth;
+    let userContext = btoa( JSON.stringify({"StoreId": authScope.user.store.id, "FulfillmentType": authScope.getContext().intent}) );
+
+    window.dispatchEvent( new CustomEvent('foodCubUpdateItems', { detail: {items: JSON.stringify(items), version: angular.element(document.body).injector().get("$rootScope").config.version, userContext: userContext} }) );
 }
 
 /**

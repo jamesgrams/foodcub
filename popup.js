@@ -1,6 +1,6 @@
 window.addEventListener("load", function() {
     chrome.storage.local.get(["foodCubBadList"], function(result) {
-        document.querySelector("textarea").value = result.foodCubBadList;
+        if( result.foodCubBadList ) document.querySelector("textarea").value = result.foodCubBadList;
     });
 
     var setting = false;
