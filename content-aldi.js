@@ -28,7 +28,7 @@ function newPage() {
 function updater() {
     let currentUrl = window.location.href;
     setInterval( function() {
-        if( window.location.href != currentUrl ) {
+        if( window.location.href != currentUrl || document.querySelector(".item-card a:not(.foodcub-seen)") ) {
             currentUrl = window.location.href;
             setTimeout( newPage, 2000 ); // Delay just to get rid of the old items
         }
@@ -40,7 +40,7 @@ function updater() {
  */
 function updateItems() {
     // we can't get scopes for elements, so we'll have to get scopes this way.
-    let products = document.querySelectorAll(".item-card a");
+    let products = document.querySelectorAll(".item-card a:not(.foodcub-seen)");
     if( !products.length ) {
         if( currentTriesProducts < maxTriesProducts ) {
             currentTriesProducts++;
@@ -50,6 +50,7 @@ function updateItems() {
     }
 
     for( let product of products ) {
+        product.classList.add("foodcub-seen");
         let href = product.getAttribute("href").replace("store","v3/containers");
         makeRequest("GET", href, {}, function(p) { return function(result) {
             
@@ -72,6 +73,9 @@ function updateItems() {
                     }
                     catch(err) {/*ok*/}
                 }
+            }
+            else {
+                p.parentElement.setAttribute("style", "background-color: #ffeb0080");
             }
 
         } }(product) );
