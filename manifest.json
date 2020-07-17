@@ -10,6 +10,7 @@
     },
     "permissions": [
         "https://shop.foodlion.com/*",
+        "https://shop.aldi.us/*",
         "storage"
     ],
     "content_scripts": [
@@ -17,7 +18,14 @@
             "matches": [
                 "https://shop.foodlion.com/*"
             ],
-            "js": ["content.js"],
+            "js": ["common.js", "content.js"],
+            "run_at": "document_end"
+        },
+        {
+            "matches": [
+                "https://shop.aldi.us/*"
+            ],
+            "js": ["common.js", "content-aldi.js"],
             "run_at": "document_end"
         }
     ],
